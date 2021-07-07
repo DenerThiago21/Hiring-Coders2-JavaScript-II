@@ -20,5 +20,7 @@ para o futuro pretende-se {
 }
 
 para executar o projeto, faça o clone do mesmo em sua máquina;
+
 após dentro do diretório do projeto, execute o comando {yarn install} para instalar todas as dependencias;
+
 após para rodar o projeto digite no terminal dentro do diretório o comando yarn start;
