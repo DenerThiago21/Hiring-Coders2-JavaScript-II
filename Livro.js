@@ -9,6 +9,7 @@ class Livro {
         this._recomenda = false;
     }
 
+    set id(id) { this._id = id; }
     set autor(autor) { this._autor = autor; }
     set nome(nome) { this._nome = nome; }
     set categoria(categoria) { this._categoria = categoria; }

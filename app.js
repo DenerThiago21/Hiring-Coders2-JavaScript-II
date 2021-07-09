@@ -1,6 +1,7 @@
-const livros = require('./database');
+const livrosDB = require('./database');
 const Livro = require('./Livro');
 const readline = require('readline-sync');
+const fs = require('fs');
 /**
  * Melhorando o projeto 
  * -> Criar menu inicial
@@ -11,23 +12,16 @@ const readline = require('readline-sync');
  * -> Excluir um livro (por id e por nome); -> Assume-se que não haverá livro repetido.
  */
 
-const menu = '---> Escolha uma opcao <--- \n'+
-             '--------------------------------\n' +
-             '1. Cadastrar Livro \n' +
-             '2. Listar Livros \n' +
-             '3. Consultar Livros por Nome \n' +
-             '4. Consultar Livros por Categoria \n' +
-             '5. Excluir Livro \n' +
-             '0. Sair\n';
+ const gerarID = () => {
+    return (livrosDB[livrosDB.length - 1].id) + 1;
+}
 
-const opcao = readline.question(menu);
-
-
-if (opcao == 1) {
+const criarLivro = () => {
+    const id = gerarID();
     const nome = readline.question('Informe o nome do Livro: ');
     const autor = readline.question('Informe o autor do Livro: ');
     const categoria = readline.question('Informe categoria do Livro: ');
-    const paginas = readline.question('Informe a quantidade de paginas do Livro: ');
+    const paginas = Number(readline.question('Informe a quantidade de paginas do Livro: '));
     let leu = readline.question('Voce ja leu este livro? S/N ');
     let recomenda = readline.question('Voce recomendaria este livro? S/N ');
 
@@ -42,9 +36,9 @@ if (opcao == 1) {
     } else {
         recomenda = false;
     }
-    
-    const livro = new Livro();
 
+    const livro = new Livro();
+    livro.id = id;
     livro.autor = autor;
     livro.nome = nome;
     livro.categoria = categoria;
@@ -52,7 +46,34 @@ if (opcao == 1) {
     livro.leu = leu;
     livro.recomenda = recomenda;
 
-    console.log(livro);
+    gravarLivro(livro);
+}
+
+
+const gravarLivro = (livro) => {
+    livrosDB.push(livro);
+    fs.writeFileSync('database.js', livrosDB);
+}
+
+
+
+const menu = '---> Escolha uma opcao <--- \n'+
+             '--------------------------------\n' +
+             '1. Cadastrar Livro \n' +
+             '2. Listar Livros \n' +
+             '3. Consultar Livros por Nome \n' +
+             '4. Consultar Livros por Categoria \n' +
+             '5. Excluir Livro \n' +
+             '0. Sair\n';
+
+const opcao = readline.question(menu);
+
+
+if (opcao == 1) {
+   criarLivro();
+}
+if (opcao == 2) {
+    gravarLivro();
 }
 
 /***************************************************************************************
